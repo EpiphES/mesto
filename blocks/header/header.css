@@ -1,11 +1,11 @@
 .header {
   padding: 45px 20px 0 20px;
+  position: relative;
+  min-height: ;
 }
 
 .header::after {
   display: block;
-
-  margin-top: 40px;
 
   content: '';
 
@@ -21,6 +21,9 @@
 
   width: 142px;
   height: 33px;
+  padding-bottom: 40px;
 
   background-image: url(../../images/logo.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
 }
