@@ -26,16 +26,19 @@
 .profile__add-button {
   min-width: 150px;
   height: 50px;
+  margin: 0;
+  padding: 0;
 
   box-sizing: border-box;
 
   border: 2px solid #fff;
   border-radius: 2px;
 
-  background-color: #000;
-  background-image: url(../../images/add-button.svg);
+  background: transparent url(../../images/add-button.svg);
   background-repeat: no-repeat;
   background-position: center;
+
+  cursor: pointer;
 }
 
 .profile__title {
@@ -63,12 +66,15 @@
 .profile__edit-button {
   width: 24px;
   height: 24px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 
   border: 1px solid #fff;
 
-  background-color: #000;
-  background-image: url(../../images/edit-button.svg);
+  background: transparent url(../../images/edit-button.svg);
   background-repeat: no-repeat;
   background-position: center;
+
+  cursor: pointer;
 }
