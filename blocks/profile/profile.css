@@ -62,7 +62,7 @@
   line-height: 1.14;
 }
 
-.profile__description {
+.profile__job {
   margin: 0;
   padding: 0;
 
@@ -112,7 +112,7 @@
     text-align: center;
   }
 
-  .profile__description {
+  .profile__job {
     font-size: 14px;
     text-align: center;
 
