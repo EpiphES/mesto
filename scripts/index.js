@@ -3,7 +3,7 @@ let modalWindow = document.querySelector(".popup");
 let closeButton = modalWindow.querySelector(".popup__close-button");
 
 function toggleModalWindow() {
-  modalWindow.classList.toggle("popup_visible");
+  modalWindow.classList.toggle("popup_opened");
 }
 
 openButton.addEventListener("click", toggleModalWindow);
