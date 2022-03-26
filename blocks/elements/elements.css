@@ -1,6 +1,6 @@
 .elements {
   margin: 0;
-  padding: 0 40px;
+  padding: 0;
 
   list-style: none;
 
@@ -23,14 +23,13 @@
 .elements__photo {
   width: 100%;
   max-height: 282px;
-  margin-bottom: 25px;
 }
 
 .elements__caption {
-  padding: 0px 15px 31px 21px;
+  padding: 22px 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 
 
 }
