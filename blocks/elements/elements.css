@@ -16,7 +16,9 @@
   height: 361px;
   border-radius: 10px;
   overflow: hidden;
+
   background-color: #fff;
+  color: #000;
 
 }
 
@@ -37,11 +39,10 @@
 .elements__title {
   margin: 0;
   width: 100%;
+
   font-weight: 900;
   font-size: 24px;
   line-height: 29px;
-
-  color: #000;
 
   text-overflow: ellipsis;
   white-space: nowrap;
