@@ -1,27 +1,29 @@
 .header {
-  padding: 45px 40px 0;
-}
+  min-height: 74px;
+  padding-top: 45px;
 
-.header::after {
-  display: block;
-
-  content: '';
-
-  width: 100%;
-  height: 1px;
-
-  background-color: #545454;
-  opacity: .7;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
 }
 
 .header__logo {
-  display: block;
-
   width: 142px;
   height: 33px;
-  padding-bottom: 40px;
+
+  display: block;
 
   background-image: url(../../images/logo.svg);
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    min-height: 56px;
+    padding: 28px 27px 0;
+  }
+
+  .header__logo {
+    width: 104px;
+    height: 24px;
+  }
 }
