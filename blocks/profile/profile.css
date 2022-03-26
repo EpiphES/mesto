@@ -1,104 +1,8 @@
 .profile {
-  display: flex;
-  align-items: center;
-
-
   padding: 40px 0 50px;
 
-}
-
-.profile__avatar {
-  width: 120px;
-  height: 120px;
-
-  border-radius: 50%;
-}
-
-.profile__info {
-  width: 100%;
-  margin: 0 30px;
   display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  flex-wrap: wrap;
-  overflow: hidden;
-}
-
-.profile__add-button {
-  min-width: 150px;
-  height: 50px;
-  margin: 0;
-  padding: 0;
-
-  box-sizing: border-box;
-
-  border: 2px solid #fff;
-  border-radius: 2px;
-
-  background: transparent url(../../images/add-button.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-
-  cursor: pointer;
-
-  transition: opacity 0.3s ease;
-}
-
-.profile__add-button:hover {
-  opacity: .6;
-}
-
-.profile__title {
-  max-width: 100%;
-  display: flex;
-  gap: 18px;
-  align-items: baseline;
-}
-
-.profile__name {
-  margin: 0;
-  padding: 0;
-
-  font-weight: 500;
-  font-size: 42px;
-  line-height: 1.14;
-
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.profile__job {
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 1.22;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.profile__edit-button {
-  min-width: 24px;
-  height: 24px;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-  border: 1px solid #fff;
-
-  background: transparent url(../../images/edit-button.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-
-  cursor: pointer;
-
-  transition: opacity 0.3s ease;
-}
-
-.profile__edit-button:hover {
-  opacity: .6;
+  align-items: center;
 }
 
 @media screen and (max-width: 767px) {
@@ -108,37 +12,5 @@
     flex-direction: column;
     align-items: center;
   }
-
-  .profile__info {
-    /* width: auto; */
-    margin: 23px 0 34px;
-    align-items: center;
-  }
-
-  .profile__name {
-    font-size: 27px;
-    line-height: 1.22;
-    text-align: center;
-  }
-
-  .profile__job {
-    font-size: 14px;
-    text-align: center;
-
-  }
-
-  .profile__add-button {
-    width: 100%;
-  }
-
-  .profile__edit-button {
-    min-width: 18px;
-    height: 18px;
-  }
-
-  .profile__title {
-    gap: 10px;
-  }
-
 }
 

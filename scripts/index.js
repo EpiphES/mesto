@@ -20,13 +20,11 @@ let submitButton = modalWindow.querySelector(".popup__submit-button");
 nameInput.value = profileName.textContent;
 jobInput.value = profileJob.textContent;
 
-function editProfile(e) {
-  e.preventDefault();
+function editProfile(evt) {
+  evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   toggleModalWindow();
 }
 
 editForm.addEventListener("submit", editProfile);
-
-// submitButton.addEventListener("click", toggleModalWindow);
