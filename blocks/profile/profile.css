@@ -122,5 +122,14 @@
     width: 100%;
   }
 
+  .profile__edit-button {
+    min-width: 18px;
+    height: 18px;
+  }
+
+  .profile__title {
+    gap: 10px;
+  }
+
 }
 
