@@ -6,9 +6,7 @@
 
   box-sizing: border-box;
 
-  background: transparent url(../../../images/add-button.svg);
-  background-repeat: no-repeat;
-  background-position: center;
+  background: transparent url(../../../images/add-button.svg) no-repeat center;
 
   border: 2px solid #fff;
   border-radius: 2px;

@@ -6,9 +6,7 @@
 
   box-sizing: border-box;
 
-  background: transparent url(../../../images/edit-button.svg);
-  background-repeat: no-repeat;
-  background-position: center;
+  background: transparent url(../../../images/edit-button.svg) no-repeat center;
 
   border: 1px solid #fff;
 
