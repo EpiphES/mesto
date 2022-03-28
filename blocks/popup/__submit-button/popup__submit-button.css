@@ -18,7 +18,7 @@
 
   cursor: pointer;
 
-  transition: .3s;
+  transition: opacity .3s;
 }
 
 .popup__submit-button:hover {

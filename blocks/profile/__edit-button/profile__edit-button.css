@@ -14,7 +14,7 @@
 
   cursor: pointer;
 
-  transition: .3s;
+  transition: opacity .3s;
 }
 
 .profile__edit-button:hover {

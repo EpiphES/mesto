@@ -10,7 +10,7 @@
 
   border: none;
   cursor: pointer;
-  transition: .3s;
+  transition: opacity .3s;
 }
 
 .elements__like:hover {
