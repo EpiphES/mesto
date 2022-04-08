@@ -4,9 +4,14 @@
 
   list-style: none;
 
-  display: flex;
-  row-gap: 20px;
-  column-gap: 17px;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px 17px;
+
+}
+
+@media screen and (max-width: 767px) {
+  .elements {
+    padding: 0 19px;
+  }
 }
