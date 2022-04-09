@@ -64,7 +64,7 @@ function getElement(item) {
 
   title.textContent = item.name;
   image.src = item.link;
-  image.alt = item.mame;
+  image.alt = item.name;
 
   buttonLike.addEventListener("click", () =>
     buttonLike.classList.toggle("elements__like_active")
@@ -72,7 +72,7 @@ function getElement(item) {
 
   buttonDelete.addEventListener("click", handleDeleteElement);
 
-  image.addEventListener("click", handleOpenImage);
+  image.addEventListener("click", () => handleOpenImage(item));
 
   return newElement;
 }
@@ -119,14 +119,10 @@ function handleCreateNewElement(evt) {
   closePopup(elementPopup);
 }
 
-function handleOpenImage(evt) {
-  const element = evt.target.closest(".elements__item");
-  const elementImage = element.querySelector(".elements__photo");
-  const elementTitle = element.querySelector(".elements__title");
-
-  popupImage.src = elementImage.src;
-  popupImage.alt = elementTitle.textContent;
-  popupCaption.textContent = elementTitle.textContent;
+function handleOpenImage(item) {
+  popupImage.src = item.link;
+  popupImage.alt = item.name;
+  popupCaption.textContent = item.name;
 
   openPopup(imagePopup);
 }
