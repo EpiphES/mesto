@@ -28,6 +28,31 @@ const initialCards = [
 const elementsContainer = document.querySelector(".elements");
 const template = document.querySelector(".elements__template");
 
+const imagePopup = document.querySelector(".popup_type_image");
+const closeImageButton = imagePopup.querySelector(".popup__close-button");
+
+const profilePopup = document.querySelector(".popup_type_edit-profile");
+const editProfileButton = document.querySelector(".profile__edit-button");
+const profileName = document.querySelector(".profile__name");
+const profileJob = document.querySelector(".profile__job");
+const nameInput = profilePopup.querySelector(".popup__input_type_name");
+const jobInput = profilePopup.querySelector(".popup__input_type_job");
+const closeProfileButton = profilePopup.querySelector(".popup__close-button");
+const submitProfileButton = profilePopup.querySelector(".popup__submit-button");
+
+const ElementPopup = document.querySelector(".popup_type_add-element");
+const addElementButton = document.querySelector(".profile__add-button");
+const titleInput = ElementPopup.querySelector(".popup__input_type_card-title");
+const linkInput = ElementPopup.querySelector(".popup__input_type_image-link");
+const closeElementButton = ElementPopup.querySelector(".popup__close-button");
+const submitElementButton = ElementPopup.querySelector(".popup__submit-button");
+
+function getElementsList(arr) {
+  const elementsList = arr.map(getElement);
+  elementsContainer.append(...elementsList);
+  return elementsContainer;
+}
+
 function getElement(item) {
   const newElement = template.content.cloneNode(true);
   const title = newElement.querySelector(".elements__title");
@@ -45,6 +70,8 @@ function getElement(item) {
 
   deleteButton.addEventListener("click", handleDeleteElement);
 
+  image.addEventListener("click", handleOpenImage);
+
   return newElement;
 }
 
@@ -52,23 +79,6 @@ function handleDeleteElement(evt) {
   const element = evt.target.closest(".elements__item");
   element.remove();
 }
-
-function getElementsList(arr) {
-  const elementsList = arr.map(getElement);
-  elementsContainer.append(...elementsList);
-  return elementsContainer;
-}
-
-getElementsList(initialCards);
-
-const profilePopup = document.querySelector(".popup_type_edit-profile");
-const editProfileButton = document.querySelector(".profile__edit-button");
-const profileName = document.querySelector(".profile__name");
-const profileJob = document.querySelector(".profile__job");
-const nameInput = profilePopup.querySelector(".popup__input_type_name");
-const jobInput = profilePopup.querySelector(".popup__input_type_job");
-const closeProfileButton = profilePopup.querySelector(".popup__close-button");
-const submitProfileButton = profilePopup.querySelector(".popup__submit-button");
 
 function openPopup(modalWindow) {
   modalWindow.classList.add("popup_opened");
@@ -91,19 +101,6 @@ function handleSubmitProfile(evt) {
   closePopup(evt);
 }
 
-editProfileButton.addEventListener("click", handleOpenProfile);
-
-closeProfileButton.addEventListener("click", closePopup);
-
-submitProfileButton.addEventListener("click", handleSubmitProfile);
-
-const ElementPopup = document.querySelector(".popup_type_add-element");
-const addElementButton = document.querySelector(".profile__add-button");
-const titleInput = ElementPopup.querySelector(".popup__input_type_card-title");
-const linkInput = ElementPopup.querySelector(".popup__input_type_image-link");
-const closeElementButton = ElementPopup.querySelector(".popup__close-button");
-const submitElementButton = ElementPopup.querySelector(".popup__submit-button");
-
 function handleOpenElement() {
   titleInput.value = "";
   linkInput.value = "";
@@ -120,6 +117,31 @@ function handleCreateNewElement(evt) {
   closePopup(evt);
 }
 
+function handleOpenImage(evt) {
+  const element = evt.target.closest(".elements__item");
+  const elementImage = element.querySelector(".elements__photo");
+  const elementTitle = element.querySelector(".elements__title");
+  const popupImage = imagePopup.querySelector(".popup__image");
+  const popupCaption = imagePopup.querySelector(".popup__caption");
+
+  popupImage.src = elementImage.src;
+  popupCaption.textContent = elementTitle.textContent;
+
+  openPopup(imagePopup);
+}
+
+editProfileButton.addEventListener("click", handleOpenProfile);
+
+closeProfileButton.addEventListener("click", closePopup);
+
+submitProfileButton.addEventListener("click", handleSubmitProfile);
+
 addElementButton.addEventListener("click", handleOpenElement);
+
 closeElementButton.addEventListener("click", closePopup);
+
 submitElementButton.addEventListener("click", handleCreateNewElement);
+
+closeImageButton.addEventListener("click", closePopup);
+
+getElementsList(initialCards);

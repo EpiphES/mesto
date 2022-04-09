@@ -50,7 +50,11 @@
 
 @import url(../blocks/popup/_opened/popup_opened.css);
 
+@import url(../blocks/popup/_type/popup_type_image.css);
+
 @import url(../blocks/popup/__content/popup__content.css);
+
+@import url(../blocks/popup/__content/_image/popup__content_image.css);
 
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 
@@ -61,3 +65,9 @@
 @import url(../blocks/popup/__input/popup__input.css);
 
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
+
+@import url(../blocks/popup/__figure/popup__figure.css);
+
+@import url(../blocks/popup/__image/popup__image.css);
+
+@import url(../blocks/popup/__caption/popup__caption.css);
