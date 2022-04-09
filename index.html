@@ -139,7 +139,7 @@
       </footer>
     </div>
 
-    <div class="popup">
+    <div class="popup popup_type_edit-profile">
       <div class="popup__content">
         <button
           class="popup__close-button"
@@ -147,7 +147,7 @@
           aria-label="закрыть"
         ></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form">
+        <form class="popup__form" name="profile-form">
           <input
             class="popup__input popup__input_type_name"
             type="text"
@@ -169,9 +169,41 @@
       </div>
     </div>
 
+    <div class="popup popup_type_add-element">
+      <div class="popup__content">
+        <button
+          class="popup__close-button"
+          type="button"
+          aria-label="закрыть"
+        ></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form class="popup__form" name="add-form">
+          <input
+            class="popup__input popup__input_type_card-title"
+            type="text"
+            name="card-title"
+            placeholder="Название"
+          />
+          <input
+            class="popup__input popup__input_type_image-link"
+            type="text"
+            name="image-link"
+            placeholder="Ссылка на картинку"
+          />
+          <button
+            class="popup__submit-button"
+            type="submit"
+            aria-label="создать"
+          >
+            Создать
+          </button>
+        </form>
+      </div>
+    </div>
+
     <template class="elements__template">
       <li class="elements__item">
-        <img src="#" alt=" " class="elements__photo" />
+        <img src="/" alt=" " class="elements__photo" />
         <div class="elements__caption">
           <h2 class="elements__title"></h2>
           <button
