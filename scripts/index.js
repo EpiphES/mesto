@@ -33,6 +33,7 @@ function getElement(item) {
   const title = newElement.querySelector(".elements__title");
   const image = newElement.querySelector(".elements__photo");
   const likeButton = newElement.querySelector(".elements__like");
+  const deleteButton = newElement.querySelector(".elements__delete");
 
   title.textContent = item.name;
   image.src = item.link;
@@ -42,7 +43,14 @@ function getElement(item) {
     likeButton.classList.toggle("elements__like_active")
   );
 
+  deleteButton.addEventListener("click", handleDeleteElement);
+
   return newElement;
+}
+
+function handleDeleteElement(evt) {
+  const element = evt.target.closest(".elements__item");
+  element.remove();
 }
 
 function getElementsList(arr) {
