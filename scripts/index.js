@@ -125,6 +125,7 @@ function handleOpenImage(evt) {
   const popupCaption = imagePopup.querySelector(".popup__caption");
 
   popupImage.src = elementImage.src;
+  popupImage.alt = elementTitle.textContent;
   popupCaption.textContent = elementTitle.textContent;
 
   openPopup(imagePopup);
