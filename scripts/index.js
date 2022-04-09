@@ -29,15 +29,20 @@ const elementsContainer = document.querySelector(".elements");
 const template = document.querySelector(".elements__template");
 
 function getElement(item) {
-  const elementTemplate = template.content.cloneNode(true);
-  const title = elementTemplate.querySelector(".elements__title");
-  const image = elementTemplate.querySelector(".elements__photo");
+  const newElement = template.content.cloneNode(true);
+  const title = newElement.querySelector(".elements__title");
+  const image = newElement.querySelector(".elements__photo");
+  const likeButton = newElement.querySelector(".elements__like");
 
   title.textContent = item.name;
   image.src = item.link;
   image.alt = item.mame;
 
-  return elementTemplate;
+  likeButton.addEventListener("click", (evt) =>
+    likeButton.classList.toggle("elements__like_active")
+  );
+
+  return newElement;
 }
 
 function getElementsList(arr) {
