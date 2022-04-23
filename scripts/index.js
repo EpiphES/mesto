@@ -36,9 +36,9 @@ const popupCaption = imagePopup.querySelector(".popup__caption");
 const profilePopup = document.querySelector(".popup_type_edit-profile");
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const profileName = document.querySelector(".profile__name");
-const profileJob = document.querySelector(".profile__job");
+const profileAbout = document.querySelector(".profile__about");
 const nameInput = profilePopup.querySelector(".popup__input_type_name");
-const jobInput = profilePopup.querySelector(".popup__input_type_job");
+const aboutInput = profilePopup.querySelector(".popup__input_type_about");
 const buttonCloseProfile = profilePopup.querySelector(".popup__close-button");
 const formEditProfile = profilePopup.querySelector(".popup__form");
 
@@ -92,14 +92,14 @@ function closePopup(modalWindow) {
 
 function handleOpenProfile() {
   nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
+  aboutInput.value = profileAbout.textContent;
   openPopup(profilePopup);
 }
 
 function handleSubmitProfile(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
+  profileAbout.textContent = aboutInput.value;
   closePopup(profilePopup);
 }
 

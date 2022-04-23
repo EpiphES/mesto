@@ -31,7 +31,7 @@
                 aria-label="редактировать"
               ></button>
             </div>
-            <p class="profile__job">Исследователь океана</p>
+            <p class="profile__about">Исследователь океана</p>
           </div>
           <button
             class="profile__add-button"
@@ -40,98 +40,7 @@
           ></button>
         </section>
 
-        <ul class="elements">
-          <!-- <li class="elements__item">
-            <img
-              src="./images/elements_karachaevsk.jpg"
-              alt="Сентинский храм в окрестностях Карачаевска"
-              class="elements__photo"
-            />
-            <div class="elements__caption">
-              <h2 class="elements__title">Карачаевск</h2>
-              <button
-                class="elements__like"
-                type="button"
-                aria-label="нравится"
-              ></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img
-              src="./images/elements_elbrus.jpg"
-              alt="Гора эльбрус в лучах заката"
-              class="elements__photo"
-            />
-            <div class="elements__caption">
-              <h2 class="elements__title">Гора Эльбрус</h2>
-              <button
-                class="elements__like"
-                type="button"
-                aria-label="нравится"
-              ></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img
-              src="./images/elements_dombay.jpg"
-              alt="Домбай, пик Инэ"
-              class="elements__photo"
-            />
-            <div class="elements__caption">
-              <h2 class="elements__title">Домбай</h2>
-              <button
-                class="elements__like"
-                type="button"
-                aria-label="нравится"
-              ></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img
-              src="./images/elements_elbrus.jpg"
-              alt="Гора эльбрус в лучах заката"
-              class="elements__photo"
-            />
-            <div class="elements__caption">
-              <h2 class="elements__title">Гора Эльбрус</h2>
-              <button
-                class="elements__like"
-                type="button"
-                aria-label="нравится"
-              ></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img
-              src="./images/elements_dombay.jpg"
-              alt="Домбай, пик Инэ"
-              class="elements__photo"
-            />
-            <div class="elements__caption">
-              <h2 class="elements__title">Домбай</h2>
-              <button
-                class="elements__like"
-                type="button"
-                aria-label="нравится"
-              ></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img
-              src="./images/elements_karachaevsk.jpg"
-              alt="Сентинский храм в окрестностях Карачаевска"
-              class="elements__photo"
-            />
-            <div class="elements__caption">
-              <h2 class="elements__title">Карачаево-Черкессия</h2>
-              <button
-                class="elements__like"
-                type="button"
-                aria-label="нравится"
-              ></button>
-            </div>
-          </li> -->
-        </ul>
+        <ul class="elements"></ul>
       </main>
 
       <footer class="footer">
@@ -147,19 +56,31 @@
           aria-label="закрыть"
         ></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="profile-form">
+        <form class="popup__form" name="profile-form" novalidate>
           <input
             class="popup__input popup__input_type_name"
             type="text"
             name="name"
+            id="name-input"
+            placeholder="Имя"
+            minlength="2"
+            maxlength="40"
+            required
           />
+          <span class="popup__input-error name-input-error"></span>
           <input
-            class="popup__input popup__input_type_job"
+            class="popup__input popup__input_type_about"
             type="text"
-            name="job"
+            name="about"
+            id="about-input"
+            placeholder="О себе"
+            minlength="2"
+            maxlength="200"
+            required
           />
+          <span class="popup__input-error about-input-error"></span>
           <button
-            class="popup__submit-button"
+            class="popup__submit-button popup__submit-button_disabled"
             type="submit"
             aria-label="сохранить"
           >
@@ -177,19 +98,26 @@
           aria-label="закрыть"
         ></button>
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" name="add-form">
+        <form class="popup__form" name="add-form" novalidate>
           <input
             class="popup__input popup__input_type_card-title"
             type="text"
             name="card-title"
             placeholder="Название"
+            id="title-input"
+            minlength="2"
+            maxlength="30"
+            required
           />
+          <span class="popup__input-error title-input-error"></span>
           <input
             class="popup__input popup__input_type_image-link"
-            type="text"
+            type="url"
             name="image-link"
             placeholder="Ссылка на картинку"
+            id="link-input"
           />
+          <span class="popup__input-error link-input-error"></span>
           <button
             class="popup__submit-button"
             type="submit"
