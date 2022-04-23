@@ -1,30 +1,3 @@
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
-
 const elementsContainer = document.querySelector(".elements");
 const template = document.querySelector(".elements__template");
 
@@ -47,6 +20,7 @@ const buttonAddElement = document.querySelector(".profile__add-button");
 const titleInput = elementPopup.querySelector(".popup__input_type_card-title");
 const linkInput = elementPopup.querySelector(".popup__input_type_image-link");
 const buttonCloseElement = elementPopup.querySelector(".popup__close-button");
+const buttonSubmitElement = elementPopup.querySelector(".popup__submit-button");
 const formAddElement = elementPopup.querySelector(".popup__form");
 
 function getElementsList(arr) {
@@ -66,9 +40,7 @@ function getElement(item) {
   image.src = item.link;
   image.alt = item.name;
 
-  buttonLike.addEventListener("click", () =>
-    buttonLike.classList.toggle("elements__like_active")
-  );
+  buttonLike.addEventListener("click", toggleLikeState);
 
   buttonDelete.addEventListener("click", handleDeleteElement);
 
@@ -80,6 +52,10 @@ function getElement(item) {
 function handleDeleteElement(evt) {
   const element = evt.target.closest(".elements__item");
   element.remove();
+}
+
+function toggleLikeState(evt) {
+  evt.target.classList.toggle("elements__like_active");
 }
 
 function openPopup(modalWindow) {
@@ -108,18 +84,18 @@ function handleSubmitProfile(evt) {
 }
 
 function handleOpenElement() {
-  titleInput.value = "";
-  linkInput.value = "";
+  formAddElement.reset();
   openPopup(elementPopup);
 }
 
-function handleCreateNewElement(evt) {
+function handleSubmitElement(evt) {
   evt.preventDefault();
   const newElement = getElement({
     name: titleInput.value,
     link: linkInput.value,
   });
   elementsContainer.prepend(newElement);
+  disableButton(buttonSubmitElement);
   closePopup(elementPopup);
 }
 
@@ -132,17 +108,21 @@ function handleOpenImage(item) {
 }
 
 function handleOverlayClick(evt) {
-  const openedPopup = document.querySelector(".popup_opened");
   if (evt.target === evt.currentTarget) {
-    closePopup(openedPopup);
+    closePopup(evt.target);
   }
 }
 
 function handleEscClose(evt) {
-  const openedPopup = document.querySelector(".popup_opened");
   if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_opened");
     closePopup(openedPopup);
   }
+}
+
+function disableButton(buttonElement) {
+  buttonElement.classList.add("popup__submit-button_disabled");
+  buttonElement.setAttribute("disabled", true);
 }
 
 buttonEditProfile.addEventListener("click", handleOpenProfile);
@@ -155,7 +135,7 @@ buttonAddElement.addEventListener("click", handleOpenElement);
 
 buttonCloseElement.addEventListener("click", () => closePopup(elementPopup));
 
-formAddElement.addEventListener("submit", handleCreateNewElement);
+formAddElement.addEventListener("submit", handleSubmitElement);
 
 buttonCloseImage.addEventListener("click", () => closePopup(imagePopup));
 
