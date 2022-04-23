@@ -1,12 +1,13 @@
 .popup__input {
-  height: 36px;
   margin: 0;
-  margin-bottom: 6px;
   padding: 0;
+  padding-bottom: 10px;
 
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
+
+  vertical-align: top;
 
   color: #000000;
 
