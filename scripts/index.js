@@ -84,10 +84,14 @@ function handleDeleteElement(evt) {
 
 function openPopup(modalWindow) {
   modalWindow.classList.add("popup_opened");
+  modalWindow.addEventListener("click", handleOverlayClick);
+  document.addEventListener("keydown", handleEscClose);
 }
 
 function closePopup(modalWindow) {
   modalWindow.classList.remove("popup_opened");
+  modalWindow.removeEventListener("click", handleOverlayClick);
+  document.removeEventListener("keydown", handleEscClose);
 }
 
 function handleOpenProfile() {
@@ -125,6 +129,20 @@ function handleOpenImage(item) {
   popupCaption.textContent = item.name;
 
   openPopup(imagePopup);
+}
+
+function handleOverlayClick(evt) {
+  const openedPopup = document.querySelector(".popup_opened");
+  if (evt.target === evt.currentTarget) {
+    closePopup(openedPopup);
+  }
+}
+
+function handleEscClose(evt) {
+  const openedPopup = document.querySelector(".popup_opened");
+  if (evt.key === "Escape") {
+    closePopup(openedPopup);
+  }
 }
 
 buttonEditProfile.addEventListener("click", handleOpenProfile);
