@@ -73,6 +73,7 @@ function closePopup(modalWindow) {
 function handleOpenProfile() {
   nameInput.value = profileName.textContent;
   aboutInput.value = profileAbout.textContent;
+  cleanError(profilePopup);
   openPopup(profilePopup);
 }
 
@@ -85,6 +86,7 @@ function handleSubmitProfile(evt) {
 
 function handleOpenElement() {
   formAddElement.reset();
+  cleanError(elementPopup);
   openPopup(elementPopup);
 }
 
@@ -95,7 +97,6 @@ function handleSubmitElement(evt) {
     link: linkInput.value,
   });
   elementsContainer.prepend(newElement);
-  disableButton(buttonSubmitElement);
   closePopup(elementPopup);
 }
 
@@ -120,9 +121,13 @@ function handleEscClose(evt) {
   }
 }
 
-function disableButton(buttonElement) {
-  buttonElement.classList.add("popup__submit-button_disabled");
-  buttonElement.setAttribute("disabled", true);
+function cleanError(modalWindow) {
+  const buttonElement = modalWindow.querySelector(".popup__submit-button");
+  const inputList = Array.from(modalWindow.querySelectorAll(".popup__input"));
+  inputList.forEach((inputElement) =>
+    hideInputError(modalWindow, inputElement, config)
+  );
+  toggleButtonState(inputList, buttonElement, config);
 }
 
 buttonEditProfile.addEventListener("click", handleOpenProfile);
