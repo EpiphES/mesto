@@ -4,6 +4,8 @@ export default class Card {
   _templateSelector;
   _handleOpenCard;
   _newCard;
+  _cardImage;
+  _buttonLike;
 
   constructor({ title, link }, templateSelector, handleOpenCard) {
     (this._title = title),
@@ -22,31 +24,32 @@ export default class Card {
   };
 
   _toggleLikeState = (evt) => {
-    evt.target.classList.toggle("elements__like_active");
+    this._buttonLike.classList.toggle("elements__like_active");
   };
 
   _handleDeleteCard = () => {
     this._newCard.remove();
+    this._newCard = null;
   };
 
   generateCard = () => {
     this._newCard = this._getTemplate();
 
-    const cardImage = this._newCard.querySelector(".elements__photo");
+    this._cardImage = this._newCard.querySelector(".elements__photo");
+
+    this._buttonLike = this._newCard.querySelector(".elements__like");
 
     this._newCard.querySelector(".elements__title").textContent = this._title;
-    cardImage.src = this._link;
-    cardImage.alt = this._title;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._title;
 
-    this._newCard
-      .querySelector(".elements__like")
-      .addEventListener("click", this._toggleLikeState);
+    this._buttonLike.addEventListener("click", this._toggleLikeState);
 
     this._newCard
       .querySelector(".elements__delete")
       .addEventListener("click", this._handleDeleteCard);
 
-    cardImage.addEventListener("click", () =>
+    this._cardImage.addEventListener("click", () =>
       this._handleOpenCard({ title: this._title, link: this._link })
     );
 
