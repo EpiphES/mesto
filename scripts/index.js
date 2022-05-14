@@ -1,4 +1,7 @@
-import Card from "./card.js";
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+import initialCards from "./initialCards.js";
+import config from "./config.js";
 
 const cardsContainer = document.querySelector(".elements");
 
@@ -31,8 +34,11 @@ const cardLinkInput = cardAddPopup.querySelector(
   ".popup__input_type_image-link"
 );
 const cardAddCloseButton = cardAddPopup.querySelector(".popup__close-button");
-const cardSubmitButton = cardAddPopup.querySelector(".popup__submit-button");
 const cardAddForm = cardAddPopup.querySelector(".popup__form");
+
+const cardFormValidator = new FormValidator(config, cardAddForm);
+
+const profileFormValidator = new FormValidator(config, profileEditForm);
 
 function getCardsList(arr) {
   arr.forEach((item) => {
@@ -61,7 +67,7 @@ function closePopup(formElement) {
 function handleOpenProfile() {
   profileNameInput.value = profileName.textContent;
   profileAboutInput.value = profileAbout.textContent;
-  cleanError(profileEditForm);
+  profileFormValidator.cleanError();
   openPopup(profileEditPopup);
 }
 
@@ -74,7 +80,7 @@ function handleSubmitProfile(evt) {
 
 function handleOpenCardAddPopup() {
   cardAddForm.reset();
-  cleanError(cardAddForm);
+  cardFormValidator.cleanError();
   openPopup(cardAddPopup);
 }
 
@@ -85,7 +91,8 @@ function handleSubmitCard(evt) {
       title: cardTitleInput.value,
       link: cardLinkInput.value,
     },
-    ".elements__template"
+    ".elements__template",
+    handleOpenCard
   ).generateCard();
   cardsContainer.prepend(cardElement);
   closePopup(cardAddPopup);
@@ -112,15 +119,6 @@ function handleEscClose(evt) {
   }
 }
 
-function cleanError(formElement) {
-  const buttonElement = formElement.querySelector(".popup__submit-button");
-  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
-  inputList.forEach((inputElement) =>
-    hideInputError(formElement, inputElement, config)
-  );
-  toggleButtonState(inputList, buttonElement, config);
-}
-
 profileEditButton.addEventListener("click", handleOpenProfile);
 
 profileCloseButton.addEventListener("click", () =>
@@ -136,5 +134,8 @@ cardAddCloseButton.addEventListener("click", () => closePopup(cardAddPopup));
 cardAddForm.addEventListener("submit", handleSubmitCard);
 
 cardShowCloseButton.addEventListener("click", () => closePopup(cardShowPopup));
+
+cardFormValidator.enableValidation();
+profileFormValidator.enableValidation();
 
 getCardsList(initialCards);
