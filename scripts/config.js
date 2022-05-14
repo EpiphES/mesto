@@ -1,5 +1,4 @@
 export default {
-  formSelector: ".popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__submit-button",
   disabledButtonClass: "popup__submit-button_disabled",
