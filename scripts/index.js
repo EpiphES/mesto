@@ -55,7 +55,7 @@ function openPopup(formElement) {
 
 function closePopup(formElement) {
   formElement.classList.remove("popup_opened");
-  formElement.removeEventListener("click", handleCloseOnClick);
+  formElement.removeEventListener("mousedown", handleCloseOnClick);
   document.removeEventListener("keydown", handleEscClose);
 }
 
