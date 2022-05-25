@@ -1,9 +1,9 @@
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
-import initialCards from "./initialCards.js";
-import config from "./config.js";
+import Section from "../components/Section.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import { config, initialCards, cardsContainer } from "../utils/constants.js";
 
-const cardsContainer = document.querySelector(".elements");
+// const cardsContainer = document.querySelector(".elements");
 
 const cardShowPopup = document.querySelector(".popup_type_image");
 const cardShowImage = cardShowPopup.querySelector(".popup__image");
@@ -35,17 +35,35 @@ const cardFormValidator = new FormValidator(config, cardAddForm);
 
 const profileFormValidator = new FormValidator(config, profileEditForm);
 
-function getNewCard(object) {
-  return new Card(object, ".elements__template", handleOpenCard).generateCard();
-}
+const cardsList = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const cardElement = new Card(
+        item,
+        ".elements__template",
+        handleOpenCard
+      ).generateCard();
 
-function getCardsList(arr) {
-  arr.forEach((item) => {
-    const cardElement = getNewCard(item);
-    cardsContainer.append(cardElement);
-  });
-  return cardsContainer;
-}
+      cardsList.setItem(cardElement);
+    },
+  },
+  cardsContainer
+);
+
+cardsList.renderItems();
+
+// function getNewCard(object) {
+//   return new Card(object, ".elements__template", handleOpenCard).generateCard();
+// }
+
+// function getCardsList(arr) {
+//   arr.forEach((item) => {
+//     const cardElement = getNewCard(item);
+//     cardsContainer.append(cardElement);
+//   });
+//   return cardsContainer;
+// }
 
 function openPopup(formElement) {
   formElement.classList.add("popup_opened");
@@ -124,4 +142,4 @@ cardAddForm.addEventListener("submit", handleSubmitCard);
 cardFormValidator.enableValidation();
 profileFormValidator.enableValidation();
 
-getCardsList(initialCards);
+// getCardsList(initialCards);
