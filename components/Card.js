@@ -2,16 +2,16 @@ export default class Card {
   _title;
   _link;
   _templateSelector;
-  _handleOpenCard;
+  _handleCardClick;
   _newCard;
   _cardImage;
   _buttonLike;
 
-  constructor({ title, link }, templateSelector, handleOpenCard) {
+  constructor({ title, link }, templateSelector, handleCardClick) {
     (this._title = title),
       (this._link = link),
       (this._templateSelector = templateSelector),
-      (this._handleOpenCard = handleOpenCard);
+      (this._handleCardClick = handleCardClick);
   }
 
   _getTemplate = () => {
@@ -50,7 +50,7 @@ export default class Card {
       .addEventListener("click", this._handleDeleteCard);
 
     this._cardImage.addEventListener("click", () =>
-      this._handleOpenCard({ title: this._title, link: this._link })
+      this._handleCardClick({ title: this._title, link: this._link })
     );
 
     return this._newCard;
