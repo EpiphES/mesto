@@ -33,4 +33,12 @@ export const initialCards = [
   },
 ];
 
-export const cardsContainer = ".elements";
+export const cardsContainerSelector = ".elements";
+export const cardTemplateSelector = ".elements__template";
+export const profileNameSelector = ".profile__name";
+export const profileAboutSelector = ".profile__about";
+export const profileEditButtonSelector = ".profile__edit-button";
+export const cardAddButtonSelector = ".profile__add-button";
+export const profileEditPopupSelector = ".popup_type_edit-profile";
+export const cardAddPopupSelector = ".popup_type_add-element";
+export const imagePopupSelector = ".popup_type_image";
