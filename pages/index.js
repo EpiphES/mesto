@@ -45,7 +45,7 @@ const cardsList = new Section(
         handleOpenCard
       ).generateCard();
 
-      cardsList.setItem(cardElement);
+      cardsList.addItem(cardElement);
     },
   },
   cardsContainer
@@ -65,17 +65,17 @@ cardsList.renderItems();
 //   return cardsContainer;
 // }
 
-function openPopup(formElement) {
-  formElement.classList.add("popup_opened");
-  formElement.addEventListener("mousedown", handleCloseOnClick);
-  document.addEventListener("keydown", handleEscClose);
-}
+// function openPopup(formElement) {
+//   formElement.classList.add("popup_opened");
+//   formElement.addEventListener("mousedown", handleCloseOnClick);
+//   document.addEventListener("keydown", handleEscClose);
+// }
 
-function closePopup(formElement) {
-  formElement.classList.remove("popup_opened");
-  formElement.removeEventListener("mousedown", handleCloseOnClick);
-  document.removeEventListener("keydown", handleEscClose);
-}
+// function closePopup(formElement) {
+//   formElement.classList.remove("popup_opened");
+//   formElement.removeEventListener("mousedown", handleCloseOnClick);
+//   document.removeEventListener("keydown", handleEscClose);
+// }
 
 function handleOpenProfile() {
   profileNameInput.value = profileName.textContent;
@@ -99,11 +99,15 @@ function handleOpenCardAddPopup() {
 
 function handleSubmitCard(evt) {
   evt.preventDefault();
-  const cardElement = getNewCard({
-    title: cardTitleInput.value,
-    link: cardLinkInput.value,
-  });
-  cardsContainer.prepend(cardElement);
+  const cardElement = new Card(
+    {
+      title: cardTitleInput.value,
+      link: cardLinkInput.value,
+    },
+    ".elements__template",
+    handleOpenCard
+  ).generateCard();
+  cardsList.addItem(cardElement);
   closePopup(cardAddPopup);
 }
 
