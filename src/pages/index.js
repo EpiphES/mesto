@@ -33,6 +33,9 @@ const userInfo = new UserInfo({
 });
 cardAddPopup.setEventListeners();
 
+const showCardPopup = new PopupWithImage(imagePopupSelector);
+showCardPopup.setEventListeners();
+
 const cardFormValidator = new FormValidator(config, cardAddPopup.form);
 const profileFormValidator = new FormValidator(config, profileEditPopup.form);
 
@@ -76,8 +79,8 @@ function handleSubmitCard(formValues) {
   cardAddPopup.close();
 }
 
-function handleCardClick(data) {
-  new PopupWithImage(data, imagePopupSelector).open();
+function handleCardClick({ title, link }) {
+  showCardPopup.open({ title, link });
 }
 
 document
