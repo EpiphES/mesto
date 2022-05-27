@@ -76,7 +76,6 @@ function handleOpenCardAddPopup() {
 
 function handleSubmitCard(formValues) {
   addNewCard(formValues);
-  cardAddPopup.close();
 }
 
 function handleCardClick({ title, link }) {
