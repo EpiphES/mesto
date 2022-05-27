@@ -33,8 +33,8 @@ const userInfo = new UserInfo({
 });
 cardAddPopup.setEventListeners();
 
-const cardFormValidator = new FormValidator(config, cardAddPopup._form);
-const profileFormValidator = new FormValidator(config, profileEditPopup._form);
+const cardFormValidator = new FormValidator(config, cardAddPopup.form);
+const profileFormValidator = new FormValidator(config, profileEditPopup.form);
 
 const cardsList = new Section(
   {
