@@ -1,7 +1,2 @@
 node_modules
 dist
-babel.config.js
-package-lock.json
-package.json
-postcss.config.js
-webpack.config.js
