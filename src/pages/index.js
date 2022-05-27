@@ -24,11 +24,14 @@ const profileEditPopup = new PopupWithForm(
   handleSubmitProfile,
   profileEditPopupSelector
 );
+profileEditPopup.setEventListeners();
+
 const cardAddPopup = new PopupWithForm(handleSubmitCard, cardAddPopupSelector);
 const userInfo = new UserInfo({
   userName: profileNameSelector,
   userAbout: profileAboutSelector,
 });
+cardAddPopup.setEventListeners();
 
 const cardFormValidator = new FormValidator(config, cardAddPopup._form);
 const profileFormValidator = new FormValidator(config, profileEditPopup._form);
