@@ -1,6 +1,5 @@
 node_modules
 dist
-src
 babel.config.js
 package-lock.json
 package.json

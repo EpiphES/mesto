@@ -32,7 +32,7 @@ export default class Card {
     this._newCard = null;
   };
 
-  generateCard = () => {
+  generateCard() {
     this._newCard = this._getTemplate();
 
     this._cardImage = this._newCard.querySelector(".elements__photo");
@@ -54,5 +54,5 @@ export default class Card {
     );
 
     return this._newCard;
-  };
+  }
 }
