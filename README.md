@@ -25,4 +25,4 @@
 
 ---
 
-Сайт доступен для просмотра на [GitHub Pages](https://epiphes.github.io/mesto/index.html)
+Сайт доступен для просмотра на [GitHub Pages](https://epiphes.github.io/mesto)
