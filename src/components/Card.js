@@ -24,7 +24,7 @@ export default class Card {
   };
 
   _toggleLikeState = (evt) => {
-    this._buttonLike.classList.toggle("elements__like_active");
+    this._buttonLike.classList.toggle("elements__like-button_active");
   };
 
   _handleDeleteCard = () => {
@@ -37,7 +37,7 @@ export default class Card {
 
     this._cardImage = this._newCard.querySelector(".elements__photo");
 
-    this._buttonLike = this._newCard.querySelector(".elements__like");
+    this._buttonLike = this._newCard.querySelector(".elements__like-button");
 
     this._newCard.querySelector(".elements__title").textContent = this._title;
     this._cardImage.src = this._link;

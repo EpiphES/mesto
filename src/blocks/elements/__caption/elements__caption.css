@@ -1,7 +1,7 @@
 .elements__caption {
-  padding: 25px 21px;
+  padding: 22px 21px;
 
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
 }
