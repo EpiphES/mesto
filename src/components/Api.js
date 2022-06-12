@@ -37,4 +37,32 @@ export default class Api {
       return Promise.reject(`Возникла ошибка: ${res.status}`);
     });
   }
+
+  submitProfileInfo(profileInfo) {
+    return fetch(`${this._baseUrl}users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(profileInfo),
+    }).then((res) => {
+      if (res.ok) {
+        console.log(res);
+        return res.json();
+      }
+      return Promise.reject(`Возникла ошибка: ${res.status}`);
+    });
+  }
+
+  submitCard(formValues) {
+    return fetch(`${this._baseUrl}cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({ name: formValues.title, link: formValues.link }),
+    }).then((res) => {
+      if (res.ok) {
+        console.log(res);
+        return res.json();
+      }
+      return Promise.reject(`Возникла ошибка: ${res.status}`);
+    });
+  }
 }

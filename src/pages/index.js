@@ -108,16 +108,9 @@ function handleOpenProfile() {
 }
 
 function handleSubmitProfile(formValues) {
-  fetch("https://mesto.nomoreparties.co/v1/cohort-43/users/me", {
-    method: "PATCH",
-    headers: {
-      authorization: "1bffef03-9768-4f1e-8e85-138575e6daba",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formValues),
-  })
-    .then((data) => {
-      console.log(data);
+  api
+    .submitProfileInfo(formValues)
+    .then(() => {
       userInfo.setUserInfo(formValues);
     })
     .catch((err) => console.log(err));
@@ -129,20 +122,15 @@ function handleOpenCardAddPopup() {
 }
 
 function handleSubmitCard(formValues) {
-  addNewCard({ name: formValues.title, link: formValues.link, likes: [] });
-
-  fetch("https://mesto.nomoreparties.co/v1/cohort-43/cards", {
-    method: "POST",
-    headers: {
-      authorization: "1bffef03-9768-4f1e-8e85-138575e6daba",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: formValues.title, link: formValues.link }),
-  });
+  api
+    .submitCard(formValues)
+    .then((res) => {
+      addNewCard(res);
+    })
+    .catch((err) => console.log(err));
 }
 
 function handleConfirmDelete() {
-  console.log(this.targetCard);
   api
     .deleteCard(this.targetCard.getCardId())
     .then(() => {

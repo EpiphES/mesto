@@ -54,10 +54,10 @@ export default class Card {
     this._newCard.querySelector(".elements__like-count").textContent =
       this._card.likes.length;
 
-    // if (this._card.owner._id != this.userId) {
-    //   this._buttonDelete.classList.add("elements__delete_disabled");
-    //   this._buttonDelete.setAttribute("disabled", true);
-    // }
+    if (this._card.owner._id != this.userId) {
+      this._buttonDelete.classList.add("elements__delete_disabled");
+      this._buttonDelete.setAttribute("disabled", true);
+    }
 
     this._cardImage.addEventListener("click", () => this._handleCardClick());
     this._buttonDelete.addEventListener("click", () =>
