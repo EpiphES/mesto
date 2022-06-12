@@ -4,12 +4,13 @@ import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import FormValidator from "../components/FormValidator.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 
 import {
-  config,
+  validatorConfig,
   cardsContainerSelector,
   cardTemplateSelector,
   profileNameSelector,
@@ -20,6 +21,7 @@ import {
   profileEditPopupSelector,
   cardAddPopupSelector,
   imagePopupSelector,
+  confirmPopupSelector,
 } from "../utils/constants.js";
 
 const api = new Api({
@@ -30,42 +32,13 @@ const api = new Api({
   },
 });
 
-api
-  .getInitialCards()
-  .then((cards) => {
-    const cardsList = new Section(
-      {
-        items: cards,
-        renderer: (item) => {
-          const cardElement = new Card(
-            { title: item.name, link: item.link, likes: item.likes },
-            cardTemplateSelector,
-            handleCardClick
-          ).generateCard();
-
-          cardsList.addItem(cardElement);
-        },
-      },
-      cardsContainerSelector
-    );
-    cardsList.renderItems();
-  })
-  .catch((err) => alert(err));
+const cardsList = new Section(addNewCard, cardsContainerSelector);
 
 const userInfo = new UserInfo({
-  userName: profileNameSelector,
-  userAbout: profileAboutSelector,
-  userAvatar: profileAvatarSelector,
+  userNameSelector: profileNameSelector,
+  userAboutSelector: profileAboutSelector,
+  userAvatarSelector: profileAvatarSelector,
 });
-
-api
-  .getProfileInfo()
-  .then((profileInfo) => {
-    console.log(profileInfo);
-    userInfo.setUserInfo({ name: profileInfo.name, about: profileInfo.about });
-    userInfo.setAvatar({ avatar: profileInfo.avatar, name: profileInfo.name });
-  })
-  .catch((err) => alert(err));
 
 const profileEditPopup = new PopupWithForm(
   handleSubmitProfile,
@@ -74,21 +47,56 @@ const profileEditPopup = new PopupWithForm(
 profileEditPopup.setEventListeners();
 
 const cardAddPopup = new PopupWithForm(handleSubmitCard, cardAddPopupSelector);
-
 cardAddPopup.setEventListeners();
 
 const showCardPopup = new PopupWithImage(imagePopupSelector);
 showCardPopup.setEventListeners();
 
-const cardFormValidator = new FormValidator(config, cardAddPopup.form);
-const profileFormValidator = new FormValidator(config, profileEditPopup.form);
+const confirmPopup = new PopupWithConfirmation(
+  handleConfirmDelete,
+  confirmPopupSelector
+);
+confirmPopup.setEventListeners();
 
-function addNewCard({ title, link }) {
-  const cardElement = new Card(
-    { title, link },
-    cardTemplateSelector,
-    handleCardClick
-  ).generateCard();
+const cardFormValidator = new FormValidator(validatorConfig, cardAddPopup.form);
+cardFormValidator.enableValidation();
+
+const profileFormValidator = new FormValidator(
+  validatorConfig,
+  profileEditPopup.form
+);
+profileFormValidator.enableValidation();
+
+function setProfileInfo() {
+  api
+    .getProfileInfo()
+    .then((profileInfo) => {
+      userInfo.setProfile(profileInfo);
+    })
+    .catch((err) => console.log(err));
+}
+
+function setInitialCards() {
+  api
+    .getInitialCards()
+    .then((cards) => {
+      cardsList.renderItems(cards.reverse());
+    })
+    .catch((err) => console.log(err));
+}
+
+function addNewCard(cardInfo) {
+  const cardElement = new Card({
+    cardInfo,
+    templateSelector: cardTemplateSelector,
+    handleCardClick: function () {
+      showCardPopup.open({ title: this._card.name, link: this._card.link });
+    },
+    handleDeleteClick: function () {
+      confirmPopup.open(this);
+    },
+    userId: userInfo.getId(),
+  }).generateCard();
 
   cardsList.addItem(cardElement);
 }
@@ -100,7 +108,6 @@ function handleOpenProfile() {
 }
 
 function handleSubmitProfile(formValues) {
-  userInfo.setUserInfo(formValues);
   fetch("https://mesto.nomoreparties.co/v1/cohort-43/users/me", {
     method: "PATCH",
     headers: {
@@ -108,7 +115,12 @@ function handleSubmitProfile(formValues) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(formValues),
-  });
+  })
+    .then((data) => {
+      console.log(data);
+      userInfo.setUserInfo(formValues);
+    })
+    .catch((err) => console.log(err));
 }
 
 function handleOpenCardAddPopup() {
@@ -117,8 +129,7 @@ function handleOpenCardAddPopup() {
 }
 
 function handleSubmitCard(formValues) {
-  // addNewCard(formValues);
-  console.log({ name: formValues.title, link: formValues.link });
+  addNewCard({ name: formValues.title, link: formValues.link, likes: [] });
 
   fetch("https://mesto.nomoreparties.co/v1/cohort-43/cards", {
     method: "POST",
@@ -130,8 +141,15 @@ function handleSubmitCard(formValues) {
   });
 }
 
-function handleCardClick({ title, link }) {
-  showCardPopup.open({ title, link });
+function handleConfirmDelete() {
+  console.log(this.targetCard);
+  api
+    .deleteCard(this.targetCard.getCardId())
+    .then(() => {
+      this.targetCard.handleDeleteCard();
+      this.close();
+    })
+    .catch((err) => console.log(err));
 }
 
 document
@@ -142,5 +160,5 @@ document
   .querySelector(cardAddButtonSelector)
   .addEventListener("click", handleOpenCardAddPopup);
 
-cardFormValidator.enableValidation();
-profileFormValidator.enableValidation();
+setProfileInfo();
+setInitialCards();

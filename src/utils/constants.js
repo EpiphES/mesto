@@ -1,4 +1,4 @@
-export const config = {
+export const validatorConfig = {
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__submit-button",
   disabledButtonClass: "popup__submit-button_disabled",
@@ -43,3 +43,4 @@ export const cardAddButtonSelector = ".profile__add-button";
 export const profileEditPopupSelector = ".popup_type_edit-profile";
 export const cardAddPopupSelector = ".popup_type_add-element";
 export const imagePopupSelector = ".popup_type_image";
+export const confirmPopupSelector = ".popup_type_confirm";
