@@ -76,25 +76,13 @@ enableValidation(validatorConfig);
 
 //page render functions
 
-function loadPage() {
-  api
-    .getProfileInfo()
-    .then((profileInfo) => {
-      userInfo.setUserInfo(profileInfo);
-    })
-    .then(() => {
-      setInitialCards();
-    })
-    .catch((err) => console.log(err));
-}
-function setInitialCards() {
-  api
-    .getInitialCards()
-    .then((cards) => {
-      cardsList.renderItems(cards.reverse());
-    })
-    .catch((err) => console.log(err));
-}
+Promise.all([api.getProfileInfo(), api.getInitialCards()])
+  .then(([profileInfo, cards]) => {
+    userInfo.setUserInfo(profileInfo);
+    cardsList.renderItems(cards.reverse());
+  })
+  .catch((err) => console.log(err));
+
 function addNewCard(cardInfo) {
   return new Card({
     cardInfo,
@@ -106,7 +94,7 @@ function addNewCard(cardInfo) {
   }).generateCard();
 }
 
-//click callbacks for card
+//event listener callbacks for card
 
 function handleCardClick({ name, link }) {
   imagePopup.open({ name, link });
@@ -214,5 +202,3 @@ document
 document
   .querySelector(profileAvatarSelector)
   .addEventListener("click", openAvatarPopup);
-
-loadPage();
