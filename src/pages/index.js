@@ -166,7 +166,7 @@ function handleSubmitCard(formValues) {
       cardAddPopup.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => cardAddPopup.renderLoading(false));
+    .finally(() => cardAddPopup.renderLoading(false, "Cоздать"));
 }
 function handleConfirm(targetCard) {
   api
@@ -187,7 +187,7 @@ function handleSubmitAvatar(formValues) {
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      avatarPopup.renderLoading(false);
+      avatarPopup.renderLoading(false, "Сохранить");
     });
 }
 
