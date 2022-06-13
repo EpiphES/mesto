@@ -2,6 +2,7 @@ export default class UserInfo {
   _userName;
   _userAbout;
   _userAvatar;
+  _userInfo;
 
   constructor({ userNameSelector, userAboutSelector, userAvatarSelector }) {
     this._userName = document.querySelector(userNameSelector);

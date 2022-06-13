@@ -1,4 +1,7 @@
 export default class Api {
+  _baseUrl;
+  _headers;
+
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
@@ -49,7 +52,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Возникла ошибка: ${res.status}`);
+      return Promise.reject(`Упс, ошибка: ${res.status}`);
     });
   }
 

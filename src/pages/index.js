@@ -43,14 +43,14 @@ const userInfo = new UserInfo({
 
 //popups
 
-const profileEditPopup = new PopupWithForm(
+const profilePopup = new PopupWithForm(
   handleSubmitProfile,
   profileEditPopupSelector
 );
 const cardAddPopup = new PopupWithForm(handleSubmitCard, cardAddPopupSelector);
-const showCardPopup = new PopupWithImage(imagePopupSelector);
+const imagePopup = new PopupWithImage(imagePopupSelector);
 const confirmPopup = new PopupWithConfirmation(
-  handleConfirmDelete,
+  handleConfirm,
   confirmPopupSelector
 );
 const avatarPopup = new PopupWithForm(handleSubmitAvatar, avatarPopupSelector);
@@ -60,26 +60,12 @@ const avatarPopup = new PopupWithForm(handleSubmitAvatar, avatarPopupSelector);
 const cardFormValidator = new FormValidator(validatorConfig, cardAddPopup.form);
 const profileFormValidator = new FormValidator(
   validatorConfig,
-  profileEditPopup.form
+  profilePopup.form
 );
 const avatarFormValidator = new FormValidator(
   validatorConfig,
   avatarPopup.form
 );
-
-//set popup event listeners
-
-profileEditPopup.setEventListeners();
-cardAddPopup.setEventListeners();
-showCardPopup.setEventListeners();
-confirmPopup.setEventListeners();
-avatarPopup.setEventListeners();
-
-//enable validation
-
-cardFormValidator.enableValidation();
-profileFormValidator.enableValidation();
-avatarFormValidator.enableValidation();
 
 //page render functions
 
@@ -103,47 +89,53 @@ function addNewCard(cardInfo) {
   const cardElement = new Card({
     cardInfo,
     templateSelector: cardTemplateSelector,
-    handleCardClick: function () {
-      showCardPopup.open({ title: this._card.name, link: this._card.link });
-    },
-    handleDeleteClick: function () {
-      confirmPopup.open(this);
-    },
-    handleLikeClick: function () {
-      if (this.isLiked()) {
-        api
-          .deleteLike(this.getCardId())
-          .then((res) => {
-            this.setLikeState(res);
-          })
-          .catch((err) => console.log(err));
-      } else {
-        api
-          .addLike(this.getCardId())
-          .then((res) => {
-            this.setLikeState(res);
-          })
-          .catch((err) => console.log(err));
-      }
-    },
+    handleCardClick,
+    handleDeleteClick,
+    handleLikeClick,
     userId: userInfo.getUserId(),
   }).generateCard();
 
   cardsList.addItem(cardElement);
 }
 
+//click callbacks for card
+
+function handleCardClick() {
+  imagePopup.open({ title: this._card.name, link: this._card.link });
+}
+function handleDeleteClick() {
+  confirmPopup.open(this);
+}
+function handleLikeClick() {
+  if (this.isLiked()) {
+    api
+      .deleteLike(this.getCardId())
+      .then((res) => {
+        this.setLikeState(res);
+      })
+      .catch((err) => console.log(err));
+  } else {
+    api
+      .addLike(this.getCardId())
+      .then((res) => {
+        this.setLikeState(res);
+      })
+      .catch((err) => console.log(err));
+  }
+}
+
 //popup openers
 
-function handleOpenProfile() {
-  profileEditPopup.setInputValues(userInfo.getUserInfo());
+function openProfilePopup() {
+  profilePopup.setInputValues(userInfo.getUserInfo());
   profileFormValidator.cleanError();
-  profileEditPopup.open();
+  profilePopup.open();
 }
-function handleOpenCardAddPopup() {
+function openCardAddPopup() {
   cardFormValidator.cleanError();
   cardAddPopup.open();
 }
-function handleOpenAvatarPopup() {
+function openAvatarPopup() {
   cardFormValidator.cleanError();
   avatarPopup.open();
 }
@@ -151,14 +143,14 @@ function handleOpenAvatarPopup() {
 //form submitters
 
 function handleSubmitProfile(formValues) {
-  profileEditPopup.renderLoading(true);
+  profilePopup.renderLoading(true);
   api
     .submitProfileInfo(formValues)
     .then(() => {
       userInfo.setUserInfo(formValues);
     })
     .catch((err) => console.log(err))
-    .finally(() => profileEditPopup.renderLoading(false));
+    .finally(() => profilePopup.renderLoading(false));
 }
 function handleSubmitCard(formValues) {
   cardAddPopup.renderLoading(true);
@@ -170,7 +162,7 @@ function handleSubmitCard(formValues) {
     .catch((err) => console.log(err))
     .finally(() => cardAddPopup.renderLoading(false));
 }
-function handleConfirmDelete() {
+function handleConfirm() {
   api
     .deleteCard(this.targetCard.getCardId())
     .then(() => {
@@ -192,17 +184,31 @@ function handleSubmitAvatar(formValues) {
     });
 }
 
+//set popup event listeners
+
+profilePopup.setEventListeners();
+cardAddPopup.setEventListeners();
+imagePopup.setEventListeners();
+confirmPopup.setEventListeners();
+avatarPopup.setEventListeners();
+
+//enable validation
+
+cardFormValidator.enableValidation();
+profileFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
+
 //event listeners
 
 document
   .querySelector(profileEditButtonSelector)
-  .addEventListener("click", handleOpenProfile);
+  .addEventListener("click", openProfilePopup);
 document
   .querySelector(cardAddButtonSelector)
-  .addEventListener("click", handleOpenCardAddPopup);
+  .addEventListener("click", openCardAddPopup);
 document
   .querySelector(profileAvatarSelector)
-  .addEventListener("click", handleOpenAvatarPopup);
+  .addEventListener("click", openAvatarPopup);
 
 setProfileInfo();
 setInitialCards();

@@ -1,12 +1,15 @@
 export default class Card {
-  _title;
-  _link;
-  _likesCount;
+  _card;
   _templateSelector;
   _handleCardClick;
+  _handleDeleteClick;
+  _handleLikeClick;
+  _userId;
   _newCard;
   _cardImage;
   _buttonLike;
+  _buttonDelete;
+  _likesCount;
 
   constructor({
     cardInfo,
@@ -21,7 +24,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleDeleteClick = handleDeleteClick;
     this._handleLikeClick = handleLikeClick;
-    this.userId = userId;
+    this._userId = userId;
   }
 
   _getTemplate = () => {
@@ -43,11 +46,11 @@ export default class Card {
   }
 
   _isMine() {
-    return this._card.owner._id === this.userId;
+    return this._card.owner._id === this._userId;
   }
 
   isLiked() {
-    return this._card.likes.some((item) => item._id === this.userId);
+    return this._card.likes.some((item) => item._id === this._userId);
   }
 
   setLikeState(data) {
