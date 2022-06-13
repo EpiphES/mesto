@@ -7,11 +7,12 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  renderItems(initialArray, userId) {
-    initialArray.forEach((item) => this._renderer(item, userId));
+  renderItems(initialArray) {
+    initialArray.forEach((item) => this.addItem(item));
   }
 
-  addItem(element) {
-    this._container.prepend(element);
+  addItem(item) {
+    const cardElement = this._renderer(item);
+    this._container.prepend(cardElement);
   }
 }

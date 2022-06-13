@@ -76,30 +76,28 @@ function loadPage() {
       userInfo.setProfile(profileInfo);
       return userInfo.getUserId();
     })
-    .then((userId) => {
-      setInitialCards(userId);
+    .then(() => {
+      setInitialCards();
     })
     .catch((err) => console.log(err));
 }
-function setInitialCards(userId) {
+function setInitialCards() {
   api
     .getInitialCards()
     .then((cards) => {
-      cardsList.renderItems(cards.reverse(), userId);
+      cardsList.renderItems(cards.reverse());
     })
     .catch((err) => console.log(err));
 }
-function addNewCard(cardInfo, userId) {
-  const cardElement = new Card({
+function addNewCard(cardInfo) {
+  return new Card({
     cardInfo,
     templateSelector: cardTemplateSelector,
     handleCardClick,
     handleDelete,
     handleLike,
-    userId,
+    userId: userInfo.getUserId(),
   }).generateCard();
-
-  cardsList.addItem(cardElement);
 }
 
 //click callbacks for card
@@ -162,7 +160,7 @@ function handleSubmitCard(formValues) {
   api
     .submitCard(formValues)
     .then((res) => {
-      addNewCard(res, userInfo.getUserId());
+      cardsList.addItem(res);
       cardAddPopup.close();
     })
     .catch((err) => console.log(err))
