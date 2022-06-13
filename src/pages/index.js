@@ -55,17 +55,24 @@ const confirmPopup = new PopupWithConfirmation(
 );
 const avatarPopup = new PopupWithForm(handleSubmitAvatar, avatarPopupSelector);
 
-//validators
+//validation
 
-const cardFormValidator = new FormValidator(validatorConfig, cardAddPopup.form);
-const profileFormValidator = new FormValidator(
-  validatorConfig,
-  profilePopup.form
-);
-const avatarFormValidator = new FormValidator(
-  validatorConfig,
-  avatarPopup.form
-);
+const formValidators = {};
+
+function enableValidation(config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  console.log(formList);
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+
+    const formName = formElement.getAttribute("name");
+
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+}
+
+enableValidation(validatorConfig);
 
 //page render functions
 
@@ -129,15 +136,15 @@ function handleLike(card) {
 
 function openProfilePopup() {
   profilePopup.setInputValues(userInfo.getUserInfo());
-  profileFormValidator.resetValidation();
+  formValidators["profile-form"].resetValidation();
   profilePopup.open();
 }
 function openCardAddPopup() {
-  cardFormValidator.resetValidation();
+  formValidators["add-form"].resetValidation();
   cardAddPopup.open();
 }
 function openAvatarPopup() {
-  cardFormValidator.resetValidation();
+  formValidators["avatar-form"].resetValidation();
   avatarPopup.open();
 }
 
@@ -195,12 +202,6 @@ cardAddPopup.setEventListeners();
 imagePopup.setEventListeners();
 confirmPopup.setEventListeners();
 avatarPopup.setEventListeners();
-
-//enable validation
-
-cardFormValidator.enableValidation();
-profileFormValidator.enableValidation();
-avatarFormValidator.enableValidation();
 
 //event listeners
 

@@ -1,5 +1,6 @@
 export const validatorConfig = {
   inputSelector: ".popup__input",
+  formSelector: ".popup__form",
   submitButtonSelector: ".popup__submit-button",
   disabledButtonClass: "popup__submit-button_disabled",
   inputErrorClass: "popup__input_invalid",
