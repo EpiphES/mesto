@@ -44,3 +44,4 @@ export const profileEditPopupSelector = ".popup_type_edit-profile";
 export const cardAddPopupSelector = ".popup_type_add-element";
 export const imagePopupSelector = ".popup_type_image";
 export const confirmPopupSelector = ".popup_type_confirm";
+export const avatarPopupSelector = ".popup_type_update-avatar";

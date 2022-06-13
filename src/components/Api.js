@@ -40,6 +40,19 @@ export default class Api {
     });
   }
 
+  submitAvatar(formValues) {
+    return fetch(`${this._baseUrl}users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ avatar: formValues.avatar }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Возникла ошибка: ${res.status}`);
+    });
+  }
+
   submitCard(formValues) {
     return fetch(`${this._baseUrl}cards`, {
       method: "POST",
@@ -47,7 +60,6 @@ export default class Api {
       body: JSON.stringify({ name: formValues.title, link: formValues.link }),
     }).then((res) => {
       if (res.ok) {
-        console.log(res);
         return res.json();
       }
       return Promise.reject(`Что-пошло не так: ${res.status}`);

@@ -22,7 +22,10 @@ import {
   cardAddPopupSelector,
   imagePopupSelector,
   confirmPopupSelector,
+  avatarPopupSelector,
 } from "../utils/constants.js";
+
+//page rendering
 
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-43/",
@@ -31,41 +34,54 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
 const cardsList = new Section(addNewCard, cardsContainerSelector);
-
 const userInfo = new UserInfo({
   userNameSelector: profileNameSelector,
   userAboutSelector: profileAboutSelector,
   userAvatarSelector: profileAvatarSelector,
 });
 
+//popups
+
 const profileEditPopup = new PopupWithForm(
   handleSubmitProfile,
   profileEditPopupSelector
 );
-profileEditPopup.setEventListeners();
-
 const cardAddPopup = new PopupWithForm(handleSubmitCard, cardAddPopupSelector);
-cardAddPopup.setEventListeners();
-
 const showCardPopup = new PopupWithImage(imagePopupSelector);
-showCardPopup.setEventListeners();
-
 const confirmPopup = new PopupWithConfirmation(
   handleConfirmDelete,
   confirmPopupSelector
 );
-confirmPopup.setEventListeners();
+const avatarPopup = new PopupWithForm(handleSubmitAvatar, avatarPopupSelector);
+
+//validators
 
 const cardFormValidator = new FormValidator(validatorConfig, cardAddPopup.form);
-cardFormValidator.enableValidation();
-
 const profileFormValidator = new FormValidator(
   validatorConfig,
   profileEditPopup.form
 );
+const avatarFormValidator = new FormValidator(
+  validatorConfig,
+  avatarPopup.form
+);
+
+//set popup event listeners
+
+profileEditPopup.setEventListeners();
+cardAddPopup.setEventListeners();
+showCardPopup.setEventListeners();
+confirmPopup.setEventListeners();
+avatarPopup.setEventListeners();
+
+//enable validation
+
+cardFormValidator.enableValidation();
 profileFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
+
+//page render functions
 
 function setProfileInfo() {
   api
@@ -75,7 +91,6 @@ function setProfileInfo() {
     })
     .catch((err) => console.log(err));
 }
-
 function setInitialCards() {
   api
     .getInitialCards()
@@ -84,7 +99,6 @@ function setInitialCards() {
     })
     .catch((err) => console.log(err));
 }
-
 function addNewCard(cardInfo) {
   const cardElement = new Card({
     cardInfo,
@@ -118,11 +132,23 @@ function addNewCard(cardInfo) {
   cardsList.addItem(cardElement);
 }
 
+//popup openers
+
 function handleOpenProfile() {
   profileEditPopup.setInputValues(userInfo.getUserInfo());
   profileFormValidator.cleanError();
   profileEditPopup.open();
 }
+function handleOpenCardAddPopup() {
+  cardFormValidator.cleanError();
+  cardAddPopup.open();
+}
+function handleOpenAvatarPopup() {
+  cardFormValidator.cleanError();
+  avatarPopup.open();
+}
+
+//form submitters
 
 function handleSubmitProfile(formValues) {
   api
@@ -132,12 +158,6 @@ function handleSubmitProfile(formValues) {
     })
     .catch((err) => console.log(err));
 }
-
-function handleOpenCardAddPopup() {
-  cardFormValidator.cleanError();
-  cardAddPopup.open();
-}
-
 function handleSubmitCard(formValues) {
   api
     .submitCard(formValues)
@@ -146,7 +166,6 @@ function handleSubmitCard(formValues) {
     })
     .catch((err) => console.log(err));
 }
-
 function handleConfirmDelete() {
   api
     .deleteCard(this.targetCard.getCardId())
@@ -156,14 +175,26 @@ function handleConfirmDelete() {
     })
     .catch((err) => console.log(err));
 }
+function handleSubmitAvatar(formValues) {
+  api
+    .submitAvatar(formValues)
+    .then((res) => {
+      userInfo.setAvatar(res);
+    })
+    .catch((err) => console.log(err));
+}
+
+//event listeners
 
 document
   .querySelector(profileEditButtonSelector)
   .addEventListener("click", handleOpenProfile);
-
 document
   .querySelector(cardAddButtonSelector)
   .addEventListener("click", handleOpenCardAddPopup);
+document
+  .querySelector(profileAvatarSelector)
+  .addEventListener("click", handleOpenAvatarPopup);
 
 setProfileInfo();
 setInitialCards();
