@@ -79,14 +79,18 @@ export default class Card {
       this._buttonDelete.setAttribute("disabled", true);
     }
 
+    this._setEventListeners();
+
+    this.setLikeState(this._card);
+
+    return this._newCard;
+  }
+
+  _setEventListeners() {
     this._cardImage.addEventListener("click", () => this._handleCardClick());
     this._buttonDelete.addEventListener("click", () =>
       this._handleDeleteClick(this._newCard)
     );
     this._buttonLike.addEventListener("click", () => this._handleLikeClick());
-
-    this.setLikeState(this._card);
-
-    return this._newCard;
   }
 }
