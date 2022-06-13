@@ -94,8 +94,8 @@ function addNewCard(cardInfo, userId) {
     cardInfo,
     templateSelector: cardTemplateSelector,
     handleCardClick,
-    handleDeleteClick,
-    handleLikeClick,
+    handleDelete,
+    handleLike,
     userId,
   }).generateCard();
 
@@ -104,25 +104,25 @@ function addNewCard(cardInfo, userId) {
 
 //click callbacks for card
 
-function handleCardClick() {
-  imagePopup.open({ title: this._card.name, link: this._card.link });
+function handleCardClick({ name, link }) {
+  imagePopup.open({ name, link });
 }
-function handleDeleteClick() {
-  confirmPopup.open(this);
+function handleDelete(card) {
+  confirmPopup.open(card);
 }
-function handleLikeClick() {
-  if (this.isLiked()) {
+function handleLike(card) {
+  if (card.isLiked()) {
     api
-      .deleteLike(this.getCardId())
+      .deleteLike(card.getCardId())
       .then((res) => {
-        this.setLikeState(res);
+        card.setLikeState(res);
       })
       .catch((err) => console.log(err));
   } else {
     api
-      .addLike(this.getCardId())
+      .addLike(card.getCardId())
       .then((res) => {
-        this.setLikeState(res);
+        card.setLikeState(res);
       })
       .catch((err) => console.log(err));
   }
