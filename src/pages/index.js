@@ -152,6 +152,7 @@ function handleSubmitProfile(formValues) {
     .submitProfileInfo(formValues)
     .then(() => {
       userInfo.setUserInfo(formValues);
+      profilePopup.close();
     })
     .catch((err) => console.log(err))
     .finally(() => profilePopup.renderLoading(false));
@@ -162,6 +163,7 @@ function handleSubmitCard(formValues) {
     .submitCard(formValues)
     .then((res) => {
       addNewCard(res, userInfo.getUserId());
+      cardAddPopup.close();
     })
     .catch((err) => console.log(err))
     .finally(() => cardAddPopup.renderLoading(false));
@@ -181,6 +183,7 @@ function handleSubmitAvatar(formValues) {
     .submitAvatar(formValues)
     .then((res) => {
       userInfo.setAvatar(res);
+      avatarPopup.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
