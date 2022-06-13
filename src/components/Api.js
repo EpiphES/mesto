@@ -26,18 +26,6 @@ export default class Api {
     });
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Возникла ошибка: ${res.status}`);
-    });
-  }
-
   submitProfileInfo(profileInfo) {
     return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
@@ -62,7 +50,43 @@ export default class Api {
         console.log(res);
         return res.json();
       }
-      return Promise.reject(`Возникла ошибка: ${res.status}`);
+      return Promise.reject(`Что-пошло не так: ${res.status}`);
+    });
+  }
+
+  deleteCard(cardId) {
+    return fetch(`${this._baseUrl}cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+
+  addLike(cardId) {
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Внимание, ошибка: ${res.status}`);
+    });
+  }
+
+  deleteLike(cardId) {
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка выполененя запроса: ${res.status}`);
     });
   }
 }

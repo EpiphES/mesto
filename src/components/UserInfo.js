@@ -1,6 +1,7 @@
 export default class UserInfo {
   _userName;
   _userAbout;
+  _userAvatar;
 
   constructor({ userNameSelector, userAboutSelector, userAvatarSelector }) {
     this._userName = document.querySelector(userNameSelector);
@@ -31,7 +32,7 @@ export default class UserInfo {
     this._userAvatar.alt = userInfo.name;
   }
 
-  getId() {
+  getUserId() {
     return this._userInfo._id;
   }
 }

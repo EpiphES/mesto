@@ -95,7 +95,24 @@ function addNewCard(cardInfo) {
     handleDeleteClick: function () {
       confirmPopup.open(this);
     },
-    userId: userInfo.getId(),
+    handleLikeClick: function () {
+      if (this.isLiked()) {
+        api
+          .deleteLike(this.getCardId())
+          .then((res) => {
+            this.setLikeState(res);
+          })
+          .catch((err) => console.log(err));
+      } else {
+        api
+          .addLike(this.getCardId())
+          .then((res) => {
+            this.setLikeState(res);
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+    userId: userInfo.getUserId(),
   }).generateCard();
 
   cardsList.addItem(cardElement);
