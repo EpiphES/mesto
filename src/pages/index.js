@@ -132,15 +132,15 @@ function handleLikeClick() {
 
 function openProfilePopup() {
   profilePopup.setInputValues(userInfo.getUserInfo());
-  profileFormValidator.cleanError();
+  profileFormValidator.resetValidation();
   profilePopup.open();
 }
 function openCardAddPopup() {
-  cardFormValidator.cleanError();
+  cardFormValidator.resetValidation();
   cardAddPopup.open();
 }
 function openAvatarPopup() {
-  cardFormValidator.cleanError();
+  cardFormValidator.resetValidation();
   avatarPopup.open();
 }
 
