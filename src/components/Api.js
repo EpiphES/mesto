@@ -36,7 +36,6 @@ export default class Api {
       body: JSON.stringify(profileInfo),
     }).then((res) => {
       if (res.ok) {
-        console.log(res);
         return res.json();
       }
       return Promise.reject(`Возникла ошибка: ${res.status}`);
