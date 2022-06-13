@@ -55,74 +55,66 @@ const confirmPopup = new PopupWithConfirmation(
 );
 const avatarPopup = new PopupWithForm(handleSubmitAvatar, avatarPopupSelector);
 
-//validators
+//validation
 
-const cardFormValidator = new FormValidator(validatorConfig, cardAddPopup.form);
-const profileFormValidator = new FormValidator(
-  validatorConfig,
-  profilePopup.form
-);
-const avatarFormValidator = new FormValidator(
-  validatorConfig,
-  avatarPopup.form
-);
+const formValidators = {};
+
+function enableValidation(config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  console.log(formList);
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+
+    const formName = formElement.getAttribute("name");
+
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+}
+
+enableValidation(validatorConfig);
 
 //page render functions
 
-function loadPage() {
-  api
-    .getProfileInfo()
-    .then((profileInfo) => {
-      userInfo.setProfile(profileInfo);
-      return userInfo.getUserId();
-    })
-    .then((userId) => {
-      setInitialCards(userId);
-    })
-    .catch((err) => console.log(err));
-}
-function setInitialCards(userId) {
-  api
-    .getInitialCards()
-    .then((cards) => {
-      cardsList.renderItems(cards.reverse(), userId);
-    })
-    .catch((err) => console.log(err));
-}
-function addNewCard(cardInfo, userId) {
-  const cardElement = new Card({
+Promise.all([api.getProfileInfo(), api.getInitialCards()])
+  .then(([profileInfo, cards]) => {
+    userInfo.setUserInfo(profileInfo);
+    cardsList.renderItems(cards.reverse());
+  })
+  .catch((err) => console.log(err));
+
+function addNewCard(cardInfo) {
+  return new Card({
     cardInfo,
     templateSelector: cardTemplateSelector,
     handleCardClick,
-    handleDeleteClick,
-    handleLikeClick,
-    userId,
+    handleDelete,
+    handleLike,
+    userId: userInfo.userId,
   }).generateCard();
-
-  cardsList.addItem(cardElement);
 }
 
-//click callbacks for card
+//event listener callbacks for card
 
-function handleCardClick() {
-  imagePopup.open({ title: this._card.name, link: this._card.link });
+function handleCardClick({ name, link }) {
+  imagePopup.open({ name, link });
 }
-function handleDeleteClick() {
-  confirmPopup.open(this);
+function handleDelete(card) {
+  confirmPopup.open(card);
 }
-function handleLikeClick() {
-  if (this.isLiked()) {
+function handleLike(card) {
+  if (card.isLiked()) {
     api
-      .deleteLike(this.getCardId())
+      .deleteLike(card.getCardId())
       .then((res) => {
-        this.setLikeState(res);
+        card.setLikeState(res);
       })
       .catch((err) => console.log(err));
   } else {
     api
-      .addLike(this.getCardId())
+      .addLike(card.getCardId())
       .then((res) => {
-        this.setLikeState(res);
+        card.setLikeState(res);
       })
       .catch((err) => console.log(err));
   }
@@ -132,15 +124,15 @@ function handleLikeClick() {
 
 function openProfilePopup() {
   profilePopup.setInputValues(userInfo.getUserInfo());
-  profileFormValidator.cleanError();
+  formValidators["profile-form"].resetValidation();
   profilePopup.open();
 }
 function openCardAddPopup() {
-  cardFormValidator.cleanError();
+  formValidators["add-form"].resetValidation();
   cardAddPopup.open();
 }
 function openAvatarPopup() {
-  cardFormValidator.cleanError();
+  formValidators["avatar-form"].resetValidation();
   avatarPopup.open();
 }
 
@@ -150,28 +142,30 @@ function handleSubmitProfile(formValues) {
   profilePopup.renderLoading(true);
   api
     .submitProfileInfo(formValues)
-    .then(() => {
-      userInfo.setUserInfo(formValues);
+    .then((res) => {
+      userInfo.setUserInfo(res);
+      profilePopup.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => profilePopup.renderLoading(false));
+    .finally(() => profilePopup.renderLoading(false, "Сохранить"));
 }
 function handleSubmitCard(formValues) {
   cardAddPopup.renderLoading(true);
   api
     .submitCard(formValues)
     .then((res) => {
-      addNewCard(res, userInfo.getUserId());
+      cardsList.addItem(res);
+      cardAddPopup.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => cardAddPopup.renderLoading(false));
+    .finally(() => cardAddPopup.renderLoading(false, "Cоздать"));
 }
-function handleConfirm() {
+function handleConfirm(targetCard) {
   api
-    .deleteCard(this.targetCard.getCardId())
+    .deleteCard(targetCard.getCardId())
     .then(() => {
-      this.targetCard.handleDeleteCard();
-      this.close();
+      targetCard.handleDeleteCard();
+      confirmPopup.close();
     })
     .catch((err) => console.log(err));
 }
@@ -180,11 +174,12 @@ function handleSubmitAvatar(formValues) {
   api
     .submitAvatar(formValues)
     .then((res) => {
-      userInfo.setAvatar(res);
+      userInfo.setUserInfo(res);
+      avatarPopup.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      avatarPopup.renderLoading(false);
+      avatarPopup.renderLoading(false, "Сохранить");
     });
 }
 
@@ -195,12 +190,6 @@ cardAddPopup.setEventListeners();
 imagePopup.setEventListeners();
 confirmPopup.setEventListeners();
 avatarPopup.setEventListeners();
-
-//enable validation
-
-cardFormValidator.enableValidation();
-profileFormValidator.enableValidation();
-avatarFormValidator.enableValidation();
 
 //event listeners
 
@@ -213,5 +202,3 @@ document
 document
   .querySelector(profileAvatarSelector)
   .addEventListener("click", openAvatarPopup);
-
-loadPage();
