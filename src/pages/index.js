@@ -73,8 +73,7 @@ function loadPage() {
   api
     .getProfileInfo()
     .then((profileInfo) => {
-      userInfo.setProfile(profileInfo);
-      return userInfo.getUserId();
+      userInfo.setUserInfo(profileInfo);
     })
     .then(() => {
       setInitialCards();
@@ -96,7 +95,7 @@ function addNewCard(cardInfo) {
     handleCardClick,
     handleDelete,
     handleLike,
-    userId: userInfo.getUserId(),
+    userId: userInfo.userId,
   }).generateCard();
 }
 
@@ -148,12 +147,12 @@ function handleSubmitProfile(formValues) {
   profilePopup.renderLoading(true);
   api
     .submitProfileInfo(formValues)
-    .then(() => {
-      userInfo.setUserInfo(formValues);
+    .then((res) => {
+      userInfo.setUserInfo(res);
       profilePopup.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => profilePopup.renderLoading(false));
+    .finally(() => profilePopup.renderLoading(false, "Сохранить"));
 }
 function handleSubmitCard(formValues) {
   cardAddPopup.renderLoading(true);
@@ -180,7 +179,7 @@ function handleSubmitAvatar(formValues) {
   api
     .submitAvatar(formValues)
     .then((res) => {
-      userInfo.setAvatar(res);
+      userInfo.setUserInfo(res);
       avatarPopup.close();
     })
     .catch((err) => console.log(err))
