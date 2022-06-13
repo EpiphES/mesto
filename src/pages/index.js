@@ -151,20 +151,24 @@ function handleOpenAvatarPopup() {
 //form submitters
 
 function handleSubmitProfile(formValues) {
+  profileEditPopup.renderLoading(true);
   api
     .submitProfileInfo(formValues)
     .then(() => {
       userInfo.setUserInfo(formValues);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => profileEditPopup.renderLoading(false));
 }
 function handleSubmitCard(formValues) {
+  cardAddPopup.renderLoading(true);
   api
     .submitCard(formValues)
     .then((res) => {
       addNewCard(res);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => cardAddPopup.renderLoading(false));
 }
 function handleConfirmDelete() {
   api
@@ -176,12 +180,16 @@ function handleConfirmDelete() {
     .catch((err) => console.log(err));
 }
 function handleSubmitAvatar(formValues) {
+  avatarPopup.renderLoading(true);
   api
     .submitAvatar(formValues)
     .then((res) => {
       userInfo.setAvatar(res);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      avatarPopup.renderLoading(false);
+    });
 }
 
 //event listeners
