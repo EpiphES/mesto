@@ -69,30 +69,34 @@ const avatarFormValidator = new FormValidator(
 
 //page render functions
 
-function setProfileInfo() {
+function loadPage() {
   api
     .getProfileInfo()
     .then((profileInfo) => {
       userInfo.setProfile(profileInfo);
+      return userInfo.getUserId();
+    })
+    .then((userId) => {
+      setInitialCards(userId);
     })
     .catch((err) => console.log(err));
 }
-function setInitialCards() {
+function setInitialCards(userId) {
   api
     .getInitialCards()
     .then((cards) => {
-      cardsList.renderItems(cards.reverse());
+      cardsList.renderItems(cards.reverse(), userId);
     })
     .catch((err) => console.log(err));
 }
-function addNewCard(cardInfo) {
+function addNewCard(cardInfo, userId) {
   const cardElement = new Card({
     cardInfo,
     templateSelector: cardTemplateSelector,
     handleCardClick,
     handleDeleteClick,
     handleLikeClick,
-    userId: userInfo.getUserId(),
+    userId,
   }).generateCard();
 
   cardsList.addItem(cardElement);
@@ -157,7 +161,7 @@ function handleSubmitCard(formValues) {
   api
     .submitCard(formValues)
     .then((res) => {
-      addNewCard(res);
+      addNewCard(res, userInfo.getUserId());
     })
     .catch((err) => console.log(err))
     .finally(() => cardAddPopup.renderLoading(false));
@@ -210,5 +214,4 @@ document
   .querySelector(profileAvatarSelector)
   .addEventListener("click", openAvatarPopup);
 
-setProfileInfo();
-setInitialCards();
+loadPage();
