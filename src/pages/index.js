@@ -166,12 +166,12 @@ function handleSubmitCard(formValues) {
     .catch((err) => console.log(err))
     .finally(() => cardAddPopup.renderLoading(false));
 }
-function handleConfirm() {
+function handleConfirm(targetCard) {
   api
-    .deleteCard(this.targetCard.getCardId())
+    .deleteCard(targetCard.getCardId())
     .then(() => {
-      this.targetCard.handleDeleteCard();
-      this.close();
+      targetCard.handleDeleteCard();
+      confirmPopup.close();
     })
     .catch((err) => console.log(err));
 }
