@@ -61,7 +61,6 @@ const formValidators = {};
 
 function enableValidation(config) {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
-  console.log(formList);
   formList.forEach((formElement) => {
     const validator = new FormValidator(config, formElement);
 
